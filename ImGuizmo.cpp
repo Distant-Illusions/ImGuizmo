@@ -2313,7 +2313,7 @@ namespace IMGUIZMO_NAMESPACE
       return modified;
    }
 
-   static bool HandleRotation(float* matrix, float* deltaMatrix, OPERATION op, int& type, const float* snap)
+   static bool HandleRotation(float* matrix, float* deltaMatrix, OPERATION op, int& type, const float rotationSnap)
    {
       if(!Intersects(op, ROTATE) || type != MT_NONE || !gContext.mbMouseOver)
       {
@@ -2373,9 +2373,9 @@ namespace IMGUIZMO_NAMESPACE
          ImGui::CaptureMouseFromApp();
 #endif
          gContext.mRotationAngle = ComputeAngleOnPlan();
-         if (snap)
+         if (rotationSnap)
          {
-            float snapInRadian = snap[0] * DEG2RAD;
+            float snapInRadian = rotationSnap * DEG2RAD;
             ComputeSnap(&gContext.mRotationAngle, snapInRadian);
          }
          vec_t rotationAxisLocalSpace;
@@ -2481,7 +2481,19 @@ namespace IMGUIZMO_NAMESPACE
      gContext.mAllowAxisFlip = value;
    }
 
-   bool Manipulate(const float* view, const float* projection, OPERATION operation, MODE mode, float* matrix, float* deltaMatrix, const float* snap, const float* localBounds, const float* boundsSnap)
+   bool Manipulate
+   (
+      const float* view,
+      const float* projection,
+      OPERATION operation,
+      MODE mode,
+      float* matrix,
+      float* deltaMatrix = NULL,
+      const float* snap = NULL,
+      const float rotationSnap = 0.0f,
+      const float* localBounds = NULL,
+      const float* boundsSnap = NULL
+   )
    {
       // Scale is always local or matrix will be skewed when applying world scale or oriented matrix
       ComputeContext(view, projection, matrix, (operation & SCALE) ? LOCAL : mode);
@@ -2509,7 +2521,7 @@ namespace IMGUIZMO_NAMESPACE
          {
             manipulated = HandleTranslation(matrix, deltaMatrix, operation, type, snap) ||
                           HandleScale(matrix, deltaMatrix, operation, type, snap) ||
-                          HandleRotation(matrix, deltaMatrix, operation, type, snap);
+                          HandleRotation(matrix, deltaMatrix, operation, type, rotationSnap);
          }
       }
 
