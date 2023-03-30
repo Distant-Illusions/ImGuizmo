@@ -2488,11 +2488,11 @@ namespace IMGUIZMO_NAMESPACE
       OPERATION operation,
       MODE mode,
       float* matrix,
-      float* deltaMatrix = NULL,
-      const float* snap = NULL,
-      const float rotationSnap = 0.0f,
-      const float* localBounds = NULL,
-      const float* boundsSnap = NULL
+      float* deltaMatrix,
+      const float* snap,
+      const float rotationSnap,
+      const float* localBounds,
+      const float* boundsSnap
    )
    {
       // Scale is always local or matrix will be skewed when applying world scale or oriented matrix
