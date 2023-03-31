@@ -2487,6 +2487,7 @@ namespace IMGUIZMO_NAMESPACE
       const float* projection,
       OPERATION operation,
       MODE mode,
+      bool& manipulated,
       float* matrix,
       float* deltaMatrix,
       const float* snap,
@@ -2514,7 +2515,7 @@ namespace IMGUIZMO_NAMESPACE
 
       // --
       int type = MT_NONE;
-      bool manipulated = false;
+      manipulated = false;
       if (gContext.mbEnable)
       {
          if (!gContext.mbUsingBounds)
@@ -2538,7 +2539,9 @@ namespace IMGUIZMO_NAMESPACE
          DrawScaleGizmo(operation, type);
          DrawScaleUniveralGizmo(operation, type);
       }
-      return manipulated;
+
+      // To do: return true if the gizmo is being held by mouse
+      return false;
    }
 
    void SetGizmoSizeClipSpace(float value)

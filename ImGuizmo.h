@@ -208,6 +208,7 @@ namespace IMGUIZMO_NAMESPACE
       const float* projection,
       OPERATION operation,
       MODE mode,
+      bool& manipulated,
       float* matrix,
       float* deltaMatrix = NULL,
       const float* snap = NULL,
